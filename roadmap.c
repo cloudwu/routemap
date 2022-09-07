@@ -171,7 +171,9 @@ find_route(struct crossing *c, struct route r[], int sz, crossing_t from, crossi
 		int len = current->len;
 		for (i=0;i<MAX_EDGE && edge->e[i].len != 0;i++) {
 			crossing_t id = edge->e[i].endpoint;
-			if (id != current->from) {
+			int cfrom = current->from;
+			if ((i == 0 && edge->e[1].len == 0)	// trun around
+				|| id != cfrom) {
 				int path_len = len + edge->e[i].len;
 				struct route *e = fetch_route(r, id);
 				if (e == NULL) {
