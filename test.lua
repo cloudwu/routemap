@@ -10,15 +10,16 @@ r.dumpmap(m)
 
 local cache = r.routecache(m)
 
-local function path(from, to)
+local function path(source, from, to)
 	local checkpoint = from
 	while checkpoint ~= to do
-		local index = checkpoint << 16 | to
+		local index = source << 32 | checkpoint << 16 | to
 		local dest = cache[index]
 		print(checkpoint, dest)
+		source = checkpoint
 		checkpoint = dest
 	end
 end
 
-path(1,2)
+path(0, 2, 3)
 
